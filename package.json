@@ -1,0 +1,15 @@
+{
+  "name": "spreadshirtremotetask",
+  "version": "1.0.0",
+  "description": "An exercise in JavaScript and React",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jakob Runge <sicarius@g4t3.de>",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
+  }
+}
