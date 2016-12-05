@@ -6,6 +6,8 @@
   "author": "Jakob Runge <sicarius@g4t3.de>",
   "license": "MIT",
   "devDependencies": {
+    "eslint": "^3.11.1",
+    "eslint-plugin-react": "^6.8.0",
     "react-scripts": "0.8.1"
   },
   "dependencies": {
