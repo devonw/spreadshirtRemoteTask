@@ -9,18 +9,14 @@ import {Button,
 class Searchbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {keywords: ""};
+    this.state = {keywords: "", onSearch: () => {}};
+    this.searchKeywords =  ("searchKeywords" in props) ? props.searchKeywords : () => {};
 
     this.updateKeywords = this.updateKeywords.bind(this);
-    this.searchKeywords = this.searchKeywords.bind(this);
   }
 
   updateKeywords() {
     this.setState({keywords: event.target.value});
-  }
-
-  searchKeywords() {
-    window.alert("SOMETIHNG HAPPENED!");
   }
 
   render() {
@@ -32,7 +28,7 @@ class Searchbar extends Component {
                        value={this.state.keywords}
                        onChange={this.updateKeywords} />
           <InputGroup.Button onClick={this.searchKeywords}>
-            <Button>
+            <Button ref="searchButton">
               <Glyphicon glyph="search"/>
             </Button>
           </InputGroup.Button>
