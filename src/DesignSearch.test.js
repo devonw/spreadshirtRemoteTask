@@ -1,4 +1,5 @@
-import DesignSearch, {SearchStates} from "./DesignSearch";
+import DesignSearch from "./DesignSearch";
+import SearchStates from "./SearchStates";
 
 /* global it:true expect: true */
 it("must have the shopId in its searchBaseUrl", () => {
