@@ -5,20 +5,21 @@ class DesignSearch {
   constructor(settings) {
     //Default attributes:
     this.keywords = "";
-    this.searchState = SearchStates.pending;
-    this.searchResults = []; // Filled when search succeeds
-    this.searchErrorMsg = null; // Filled when search failes
     this.shopId = "205909"; // Given trough task description
     this.offset = 0;
     this.limit = 50;
     this.searchImmediately = true;
     this.callback = null; // Where we say hello in case of search updates
+    //Apply settings:
+    Object.assign(this, settings || {});
+    //Handled by DesignSearch:
+    this.searchState = SearchStates.pending;
+    this.searchErrorMsg = null; // Filled when search fails
+    this.designs = []; // Filled when search succeeds
     //Bind this context:
     this.searchSuccess = this.searchSuccess.bind(this);
     this.searchError = this.searchError.bind(this);
     this.notifyCallback = this.notifyCallback.bind(this);
-    //Apply settings:
-    Object.assign(this, settings || {});
     //Trigger search if desired:
     if(this.searchImmediately) {
       this.search();
@@ -47,8 +48,7 @@ class DesignSearch {
 
   searchSuccess(response) {
     this.searchState = SearchStates.success;
-    //console.log("DEBUG searchSuccess", response);
-    //FIXME IMPLEMENT
+    this.designs = response.data.designs;
   }
 
   searchError(error) {

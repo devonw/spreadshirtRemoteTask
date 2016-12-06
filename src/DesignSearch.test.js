@@ -29,8 +29,9 @@ it("must use the callback after search is called", () => {
 
 it("must set searchState to success after searchSuccess", () => {
   const search = mkSimpleSearch();
-  search.searchSuccess();
+  search.searchSuccess({data: {designs: ["foo"]}});
   expect(search.searchState).toBe(SearchStates.success);
+  expect(search.designs).toEqual(["foo"]);
 });
 
 it("must set searchState to fail after searchError", () => {
