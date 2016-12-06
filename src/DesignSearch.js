@@ -1,4 +1,5 @@
 import SearchStates from "./SearchStates";
+import axios from "../node_modules/axios/index";
 
 class DesignSearch {
   constructor(settings) {
@@ -6,9 +7,16 @@ class DesignSearch {
     this.keywords = "";
     this.searchState = SearchStates.pending;
     this.searchResults = []; // Filled when search succeeds
-    this.searchErrorMsg = ""; // Filled when search failes
+    this.searchErrorMsg = null; // Filled when search failes
     this.shopId = "205909"; // Given trough task description
+    this.offset = 0;
+    this.limit = 50;
     this.searchImmediately = true;
+    this.callback = null; // Where we say hello in case of search updates
+    //Bind this context:
+    this.searchSuccess = this.searchSuccess.bind(this);
+    this.searchError = this.searchError.bind(this);
+    this.notifyCallback = this.notifyCallback.bind(this);
     //Apply settings:
     Object.assign(this, settings || {});
     //Trigger search if desired:
@@ -22,9 +30,37 @@ class DesignSearch {
   }
 
   search() {
+    const config = {
+      params: {
+        query: this.keywords,
+        mediaType: "json",
+        spellcheck: true,
+        fullData: true,
+        offset: this.offset,
+        limit: this.limit
+      }
+    };
+    return axios.get(this.searchBaseUrl(), config)
+         .then(this.searchSuccess, this.searchError)
+         .then(this.notifyCallback);
+  }
+
+  searchSuccess(response) {
+    this.searchState = SearchStates.success;
+    //console.log("DEBUG searchSuccess", response);
     //FIXME IMPLEMENT
   }
 
+  searchError(error) {
+    this.searchState = SearchStates.fail;
+    this.searchErrorMsg = error;
+  }
+
+  notifyCallback() {
+    if(this.callback) {
+      this.callback(this);
+    }
+  }
 }
 
 export default DesignSearch;
