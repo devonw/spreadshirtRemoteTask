@@ -4,6 +4,7 @@ import "./App.css";
 import Searchbar from "./Searchbar";
 import AppStates from "./AppStates";
 import DesignSearch from "./DesignSearch";
+import Vote from "./Vote";
 
 class App extends Component {
   constructor(props) {
@@ -27,7 +28,10 @@ class App extends Component {
         currentSearch: search
       });
     }else{
-      const search = new DesignSearch();
+      const search = new DesignSearch({
+        keywords: keywords,
+        searchImmediately: false
+      });
       const history = new Map(searchHistory);
       history.set(search.keywords, search);
 
@@ -50,8 +54,7 @@ class App extends Component {
       }
       return this.renderSearch();
     case AppStates.vote:
-      // FIXME IMPLEMENT
-      return this.renderBase("Voting intensifies");
+      return this.renderVote();
     case AppStates.statistics:
       // FIXME IMPLEMENT
       return this.renderBase("Statistics intensifies");
@@ -63,6 +66,12 @@ class App extends Component {
   renderSearch() {
     return this.renderBase(
       <Searchbar ref="searchBar" onSearch={() => this.handleSearch()}/>
+    );
+  }
+
+  renderVote() {
+    return this.renderBase(
+      <Vote ref="vote" search={this.state.currentSearch}/>
     );
   }
 
