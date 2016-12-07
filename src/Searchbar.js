@@ -9,8 +9,9 @@ import {Button,
 class Searchbar extends Component {
   constructor(props) {
     super(props);
-    this.state = {keywords: "", onSearch: () => {}};
-    this.searchKeywords =  ("searchKeywords" in props) ? props.searchKeywords : () => {};
+    this.state = {
+      keywords: "",
+    };
 
     this.updateKeywords = this.updateKeywords.bind(this);
   }
@@ -27,7 +28,7 @@ class Searchbar extends Component {
                        placeholder="Keywords…"
                        value={this.state.keywords}
                        onChange={this.updateKeywords} />
-          <InputGroup.Button onClick={this.searchKeywords}>
+          <InputGroup.Button onClick={this.props.onSearch} ref="searchInput">
             <Button ref="searchButton">
               <Glyphicon glyph="search"/>
             </Button>
