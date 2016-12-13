@@ -22,7 +22,7 @@ class DesignSearch {
   }
 
   searchBaseUrl() {
-    return `http://api.spreadshirt.com/api/v1/shops/${this.shopId}/designs`;
+    return `/api/v1/shops/${this.shopId}/designs`;
   }
 
   search() {
