@@ -15,7 +15,11 @@ class App extends Component {
     this.state = {
       appState: AppStates.showSearch,
       designs: [],
-      statusMessage: "",
+      status: {
+        title: "Welcome!",
+        msg: "This is like tinder for T-shirts.",
+        style: "success"
+      },
       searchHistory: new Map() // keywords -> designs
     };
     this.triggerSearch = this.triggerSearch.bind(this);
@@ -52,7 +56,11 @@ class App extends Component {
           });
         },
         (error) => {
-          this.setState({statusMessage: error});
+          this.setState({status: {
+            title: "Error during search:",
+            msg: error.message,
+            style: "danger"
+          }});
         }
       );
       //*/
@@ -61,7 +69,7 @@ class App extends Component {
   }
 
   dismissStatus() {
-    this.setState({statusMessage: ""});
+    this.setState({status: {msg: "", title: "", style: ""}});
   }
 
   render() {
@@ -93,12 +101,16 @@ class App extends Component {
   }
 
   renderBase(content) {
+    const state = this.state;
     return (
       <div className="App">
         <div className="App-header">
           <h2>Spreadshirt Remote Task</h2>
         </div>
-        <StatusMessage msg={this.state.statusMessage} onclick={this.dismissStatus}/>
+        <StatusMessage title={state.status.title}
+                       msg={state.status.msg}
+                       style={state.status.style}
+                       onClick={this.dismissStatus}/>
         {content}
       </div>
     );

@@ -12,11 +12,21 @@ class StatusMessage extends Component {
   }
 
   render() {
-    if(this.state.msg){
+    const props = this.props;
+    if(props.title && props.msg){
       return (
-        <Alert bsStyle="danger" onDismiss={this.state.onclick}>
-          <h4>Oh snap! You got an error!</h4>
-          <p>{this.state.msg}</p>
+        <Alert bsStyle={props.style || "danger"}
+               onDismiss={props.onClick}>
+          <h4>{props.title}</h4>
+          <p>{props.msg}</p>
+        </Alert>
+      );
+    }
+    if(props.msg){
+      return (
+        <Alert bsStyle={props.style || "danger"}
+               onDismiss={props.onClick}>
+          <p>{props.msg}</p>
         </Alert>
       );
     }
