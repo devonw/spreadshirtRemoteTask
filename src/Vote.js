@@ -1,6 +1,8 @@
-/* eslint no-unused-vars: ["error", {"varsIgnorePattern": "React|imageForDesign"}]*/
+/* eslint no-unused-vars: ["error", {"varsIgnorePattern": "React|imageForDesign|Button|Glyphicon"}]*/
 import React, { Component } from "react";
-import {exampleImage, imageForDesign} from "./Vote/Helpers";
+import {Button,
+        Glyphicon} from "react-bootstrap";
+import {imageForDesign} from "./Vote/Helpers";
 
 class Vote extends Component {
   constructor(props) {
@@ -13,15 +15,22 @@ class Vote extends Component {
 
   render() {
     const state = this.state;
-    if(state.cursor >= state.designs.length){
-      return (
-        <img src={exampleImage} alt="Heart with rainbow." />
-      );
-    }
-    const currentDesign = state.designs[state.cursor];
+    const currentDesign = (state.cursor >= state.designs.length)
+                        ? {description: "", resources: []}
+                        : state.designs[state.cursor];
     return (
-      <img src={imageForDesign(currentDesign)}
-           alt={currentDesign.description} />
+      <div>
+        <div>
+          <Button ref="searchButton" onClick={this.props.searchButton}>
+            <Glyphicon glyph="search"/>
+          </Button>
+          <Button ref="statisticsButton" onClick={this.props.statisticsButton}>
+            <Glyphicon glyph="stats"/>
+          </Button>
+        </div>
+        <img src={imageForDesign(currentDesign)}
+             alt={currentDesign.description} />
+      </div>
     );
   }
 }

@@ -95,7 +95,10 @@ class App extends Component {
 
   renderVote() {
     return this.renderBase(
-      <Vote ref="vote" designs={this.state.designs}/>
+      <Vote ref="vote"
+            designs={this.state.designs}
+            searchButton={() => {this.setState({appState: AppStates.showSearch});}}
+            statisticsButton={() => {this.setState({appState: AppStates.statistics});}}/>
     );
   }
 
