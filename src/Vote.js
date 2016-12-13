@@ -20,6 +20,8 @@ class Vote extends Component {
                         : state.designs[state.cursor];
     return (
       <div>
+        <img src={imageForDesign(currentDesign)}
+             alt={currentDesign.description} />
         <div>
           <Button ref="searchButton" onClick={this.props.searchButton}>
             <Glyphicon glyph="search"/>
@@ -27,9 +29,15 @@ class Vote extends Component {
           <Button ref="statisticsButton" onClick={this.props.statisticsButton}>
             <Glyphicon glyph="stats"/>
           </Button>
+          <Button ref="voteDownButton" bsStyle="danger"
+                  onClick={this.props.voteDownButton}>
+            <Glyphicon glyph="chevron-down"/>
+          </Button>
+          <Button ref="voteUpButton" bsStyle="success"
+                  onClick={this.props.voteUpButton}>
+            <Glyphicon glyph="chevron-up"/>
+          </Button>
         </div>
-        <img src={imageForDesign(currentDesign)}
-             alt={currentDesign.description} />
       </div>
     );
   }

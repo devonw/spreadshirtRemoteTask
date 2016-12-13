@@ -31,7 +31,11 @@ class App extends Component {
     if(searchHistory.has(keywords)){
       this.setState({
         appState: AppStates.vote,
-        designs: searchHistory.get(keywords)
+        designs: searchHistory.get(keywords),
+        status: {
+          title: "Ah!",
+          msg: "This search was done before. No server was bothered.",
+          style: "info"}
       });
     }else{
       const searchConfig = {
@@ -52,7 +56,8 @@ class App extends Component {
           this.setState({
             appState: AppStates.vote,
             designs: designs,
-            searchHistory: history
+            searchHistory: history,
+            status: {msg: "", title: "", style: ""}
           });
         },
         (error) => {
