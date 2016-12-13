@@ -8,7 +8,8 @@ class Vote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      designs: []
+      designs: [],
+      error: ""
     };
     //We expect props to contain `search`.
     this.searchEnded = this.searchEnded.bind(this);
@@ -20,12 +21,19 @@ class Vote extends Component {
   }
 
   searchEnded() {
-
+    switch(this.props.search.searchState){
+    case SearchStates.succees:
+      this.setState({designs: this.props.search.designs});
+      break;
+    case SearchStates.fail:
+    default:
+      this.setState({error: this.props.search.searchErrorMsg});
+    }
   }
 
   render() {
     return (
-      <img src={exampleImage} />
+      <img src={exampleImage} alt="Heart with rainbow." />
     );
   }
 }

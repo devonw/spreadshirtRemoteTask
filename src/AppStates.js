@@ -1,5 +1,6 @@
 const AppStates = {
-  search: Symbol("Search"),
+  showSearch: Symbol("Show Search"),
+  searching: Symbol("Searching…"),
   vote: Symbol("Vote"),
   statistics: Symbol("Statistics")
 };
