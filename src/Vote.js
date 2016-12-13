@@ -7,7 +7,8 @@ class Vote extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      designs: props.designs || []
+      designs: props.designs || [],
+      currentDesign: 0
     };
   }
 

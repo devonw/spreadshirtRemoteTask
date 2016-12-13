@@ -46,7 +46,7 @@ class App extends Component {
       };
       axios.get(`/api/v1/shops/${shopId}/designs`, searchConfig).then(
         (response) => {
-          const designs = response.designs;
+          const designs = response.data.designs;
           var history = new Map(this.state.searchHistory);
           history.set(keywords, designs);
           this.setState({
