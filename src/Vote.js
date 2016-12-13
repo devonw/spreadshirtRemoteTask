@@ -13,6 +13,11 @@ class Vote extends Component {
     };
   }
 
+  vote(λ){
+    this.setState({cursor: this.state.cursor + 1});
+    λ();
+  }
+
   render() {
     const state = this.state;
     const currentDesign = (state.cursor >= state.designs.length)
@@ -30,11 +35,11 @@ class Vote extends Component {
             <Glyphicon glyph="stats"/>
           </Button>
           <Button ref="voteDownButton" bsStyle="danger"
-                  onClick={this.props.voteDownButton}>
+                  onClick={() => {this.vote(this.props.voteDownButton);}}>
             <Glyphicon glyph="chevron-down"/>
           </Button>
           <Button ref="voteUpButton" bsStyle="success"
-                  onClick={this.props.voteUpButton}>
+                  onClick={() => {this.vote(this.props.voteUpButton);}}>
             <Glyphicon glyph="chevron-up"/>
           </Button>
         </div>
