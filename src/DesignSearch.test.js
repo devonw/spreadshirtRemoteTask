@@ -4,7 +4,6 @@ import SearchStates from "./SearchStates";
 
 const mkSimpleSearch = () => {
   return new DesignSearch({
-    searchImmediately: false,
     keywords: "Heart"
   });
 };

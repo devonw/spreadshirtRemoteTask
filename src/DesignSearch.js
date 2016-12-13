@@ -8,7 +8,6 @@ class DesignSearch {
     this.shopId = "205909"; // Given trough task description
     this.offset = 0;
     this.limit = 50;
-    this.searchImmediately = true;
     this.callback = null; // Where we say hello in case of search updates
     //Apply settings:
     Object.assign(this, settings || {});
@@ -20,10 +19,6 @@ class DesignSearch {
     this.searchSuccess = this.searchSuccess.bind(this);
     this.searchError = this.searchError.bind(this);
     this.notifyCallback = this.notifyCallback.bind(this);
-    //Trigger search if desired:
-    if(this.searchImmediately) {
-      this.search();
-    }
   }
 
   searchBaseUrl() {

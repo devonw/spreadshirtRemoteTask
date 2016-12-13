@@ -28,10 +28,7 @@ class App extends Component {
         currentSearch: search
       });
     }else{
-      const search = new DesignSearch({
-        keywords: keywords,
-        searchImmediately: false
-      });
+      const search = new DesignSearch({keywords: keywords});
       const history = new Map(searchHistory);
       history.set(search.keywords, search);
 
