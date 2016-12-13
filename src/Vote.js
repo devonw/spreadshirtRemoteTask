@@ -21,7 +21,7 @@ class Vote extends Component {
     const currentDesign = state.designs[state.cursor];
     return (
       <img src={imageForDesign(currentDesign)}
-           alt="Heart with rainbow." />
+           alt={currentDesign.description} />
     );
   }
 }

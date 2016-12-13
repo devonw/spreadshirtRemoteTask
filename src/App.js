@@ -75,8 +75,7 @@ class App extends Component {
   render() {
     switch(this.state.appState){
     case AppStates.searching:
-      // FIXME IMPLEMENT
-      return this.renderBase("Searching intensifies");
+      return this.renderBase("Searching…");
     case AppStates.vote:
       return this.renderVote();
     case AppStates.statistics:
