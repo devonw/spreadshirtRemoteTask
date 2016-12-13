@@ -1,12 +1,13 @@
 /* eslint no-unused-vars: ["error", {"varsIgnorePattern": "React|Searchbar|Vote|StatusMessage"}]*/
 import React, { Component } from "react";
+import axios from "axios";
 import "./App.css";
 import AppStates from "./AppStates";
 import Searchbar from "./Searchbar";
-import SearchStates from "./SearchStates";
-import DesignSearch from "./DesignSearch";
 import Vote from "./Vote";
 import StatusMessage from "./StatusMessage";
+
+const shopId = "205909"; // Given trough task description
 
 class App extends Component {
   constructor(props) {
@@ -21,8 +22,7 @@ class App extends Component {
     this.dismissStatus = this.dismissStatus.bind(this);
   }
 
-  triggerSearch() {
-    const keywords = this.refs.searchBar.keywords;
+  triggerSearch(keywords) {
     const searchHistory = this.state.searchHistory;
     if(searchHistory.has(keywords)){
       this.setState({
@@ -30,33 +30,32 @@ class App extends Component {
         designs: searchHistory.get(keywords)
       });
     }else{
-      const search = new DesignSearch({
-        keywords: keywords,
-        callback: () => {
-          switch(search.searchState){
-          case SearchStates.success:
-            var history = new Map(this.state.searchHistory);
-            history.set(keywords, search.designs);
-            this.setState({
-              appState: AppStates.vote,
-              designs: search.designs,
-              searchHistory: history
-            });
-            break;
-          case SearchStates.fail:
-            this.setState({
-              appState: AppStates.showSearch,
-              statusMessage: search.searchErrorMsg
-            });
-            break;
-          default:
-            this.setState({
-              appState: AppStates.showSearch,
-              statusMessage: "Sorry, an unexpected problem occured during search."
-            });
-          }
+      const searchConfig = {
+        params: {
+          query: keywords,
+          mediaType: "json",
+          spellcheck: true,
+          fullData: true,
+          offset: 0,
+          limit: 50
         }
-      });
+      };
+      axios.get(`/api/v1/shops/${shopId}/designs`, searchConfig).then(
+        (response) => {
+          const designs = response.designs;
+          var history = new Map(this.state.searchHistory);
+          history.set(keywords, designs);
+          this.setState({
+            appState: AppStates.vote,
+            designs: designs,
+            searchHistory: history
+          });
+        },
+        (error) => {
+          this.setState({statusMessage: error});
+        }
+      );
+      //*/
       this.setState({appState: AppStates.searching});
     }
   }

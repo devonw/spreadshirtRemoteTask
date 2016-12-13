@@ -28,7 +28,9 @@ class Searchbar extends Component {
                        placeholder="Keywords…"
                        value={this.state.keywords}
                        onChange={this.updateKeywords} />
-          <InputGroup.Button onClick={this.props.onSearch} ref="searchInput">
+          <InputGroup.Button
+            onClick={() => {this.props.onSearch(this.state.keywords);}}
+            ref="searchInput">
             <Button ref="searchButton">
               <Glyphicon glyph="search"/>
             </Button>
