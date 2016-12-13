@@ -1,20 +1,27 @@
-/* eslint no-unused-vars: ["error", {"varsIgnorePattern": "React"}]*/
+/* eslint no-unused-vars: ["error", {"varsIgnorePattern": "React|imageForDesign"}]*/
 import React, { Component } from "react";
-
-const exampleImage = "https://image.spreadshirtmedia.com/image-server/v1/designs/2104687";
+import {exampleImage, imageForDesign} from "./Vote/Helpers";
 
 class Vote extends Component {
   constructor(props) {
     super(props);
     this.state = {
       designs: props.designs || [],
-      currentDesign: 0
+      cursor: 0
     };
   }
 
   render() {
+    const state = this.state;
+    if(state.cursor >= state.designs.length){
+      return (
+        <img src={exampleImage} alt="Heart with rainbow." />
+      );
+    }
+    const currentDesign = state.designs[state.cursor];
     return (
-      <img src={exampleImage} alt="Heart with rainbow." />
+      <img src={imageForDesign(currentDesign)}
+           alt="Heart with rainbow." />
     );
   }
 }
