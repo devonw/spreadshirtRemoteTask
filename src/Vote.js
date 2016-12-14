@@ -11,18 +11,27 @@ class Vote extends Component {
       designs: props.designs || [],
       cursor: 0
     };
+    this.currentDesign = this.currentDesign.bind(this);
+    this.vote = this.vote.bind(this);
   }
 
-  vote(λ){
+  currentDesign(){
+    const state = this.state;
+    return (state.cursor >= state.designs.length)
+         ? {description: "", resources: []}
+         : state.designs[state.cursor];
+  }
+
+  vote(vote){
+    const currentDesign = this.currentDesign();
     this.setState({cursor: this.state.cursor + 1});
-    λ();
+    if(this.props.onVote){
+      this.props.onVote(currentDesign.id, vote);
+    }
   }
 
   render() {
-    const state = this.state;
-    const currentDesign = (state.cursor >= state.designs.length)
-                        ? {description: "", resources: []}
-                        : state.designs[state.cursor];
+    const currentDesign = this.currentDesign();
     return (
       <div>
         <img src={imageForDesign(currentDesign)}
@@ -35,11 +44,11 @@ class Vote extends Component {
             <Glyphicon glyph="stats"/>
           </Button>
           <Button ref="voteDownButton" bsStyle="danger"
-                  onClick={() => {this.vote(this.props.voteDownButton);}}>
+                  onClick={() => {this.vote(-1);}}>
             <Glyphicon glyph="chevron-down"/>
           </Button>
           <Button ref="voteUpButton" bsStyle="success"
-                  onClick={() => {this.vote(this.props.voteUpButton);}}>
+                  onClick={() => {this.vote(+1);}}>
             <Glyphicon glyph="chevron-up"/>
           </Button>
         </div>

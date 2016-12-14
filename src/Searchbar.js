@@ -16,7 +16,7 @@ class Searchbar extends Component {
     this.updateKeywords = this.updateKeywords.bind(this);
   }
 
-  updateKeywords() {
+  updateKeywords(event) {
     this.setState({keywords: event.target.value});
   }
 

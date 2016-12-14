@@ -52,15 +52,17 @@ class App extends Component {
       };
       axios.get(`/api/v1/shops/${shopId}/designs`, searchConfig).then(
         (response) => {
+          const state = this.state;
           const designs = response.data.designs;
-          const newDesigns = new Map(designs.map((d) => {
-            return [d.id, d];
-          }));
+          const newDesigns = new Map(function*(){
+            yield* state.designs;
+            yield* designs.map((d) => {return [d.id, d];});
+          }());
           const designIds = designs.map((d) => {return d.id;});
-          const history = (new Map(this.state.searchHistory)).set(keywords, designIds);
+          const history = (new Map(state.searchHistory)).set(keywords, designIds);
           this.setState({
             appState: AppStates.vote,
-            designs: new Map(this.state.designs, newDesigns),
+            designs: newDesigns,
             searchHistory: history,
             status: {msg: "", title: "", style: ""},
             voteKeywords: keywords
