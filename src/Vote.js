@@ -18,8 +18,7 @@ class Vote extends Component {
   currentDesign(){
     const state = this.state;
     return (state.cursor >= state.designs.length)
-         ? {description: "", resources: []}
-         : state.designs[state.cursor];
+         ? null : state.designs[state.cursor];
   }
 
   vote(vote){
@@ -32,28 +31,44 @@ class Vote extends Component {
 
   render() {
     const currentDesign = this.currentDesign();
-    return (
-      <div>
-        <img src={imageForDesign(currentDesign)}
-             alt={currentDesign.description} />
+    if(currentDesign){
+      return (
         <div>
-          <Button ref="searchButton" onClick={this.props.searchButton}>
-            <Glyphicon glyph="search"/>
-          </Button>
-          <Button ref="statisticsButton" onClick={this.props.statisticsButton}>
-            <Glyphicon glyph="stats"/>
-          </Button>
-          <Button ref="voteDownButton" bsStyle="danger"
-                  onClick={() => {this.vote(-1);}}>
-            <Glyphicon glyph="chevron-down"/>
-          </Button>
-          <Button ref="voteUpButton" bsStyle="success"
-                  onClick={() => {this.vote(+1);}}>
-            <Glyphicon glyph="chevron-up"/>
-          </Button>
+          <img src={imageForDesign(currentDesign)}
+               alt={currentDesign.description} />
+          <div>
+            <Button ref="searchButton" onClick={this.props.searchButton}>
+              <Glyphicon glyph="search"/>
+            </Button>
+            <Button ref="statisticsButton" onClick={this.props.statisticsButton}>
+              <Glyphicon glyph="stats"/>
+            </Button>
+            <Button ref="voteDownButton" bsStyle="danger"
+                    onClick={() => {this.vote(-1);}}>
+              <Glyphicon glyph="chevron-down"/>
+            </Button>
+            <Button ref="voteUpButton" bsStyle="success"
+                    onClick={() => {this.vote(+1);}}>
+              <Glyphicon glyph="chevron-up"/>
+            </Button>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }else{
+      return (
+        <div>
+          <div>Sorry, no more designs to display.</div>
+          <div>
+            <Button ref="searchButton" onClick={this.props.searchButton}>
+              <Glyphicon glyph="search"/>
+            </Button>
+            <Button ref="statisticsButton" onClick={this.props.statisticsButton}>
+              <Glyphicon glyph="stats"/>
+            </Button>
+          </div>
+        </div>
+      );
+    }
   }
 }
 
