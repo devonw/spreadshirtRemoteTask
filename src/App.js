@@ -93,10 +93,10 @@ class App extends Component {
     const state = this.state;
     const design = state.designs.get(designId);
     this.setState({
-      designs: new Map(
-        state.designs,
-        [design.id, Object.assign({}, design, {vote: vote})]
-      )
+      designs: new Map(function*(){
+        yield* state.designs;
+        yield [design.id, Object.assign({}, design, {vote: vote})];
+      }())
     });
   }
 
