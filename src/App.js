@@ -56,7 +56,7 @@ class App extends Component {
           const designs = response.data.designs;
           const newDesigns = new Map(function*(){
             yield* state.designs;
-            yield* designs.map((d) => {return [d.id, d];});
+            yield* designs.map(function(d){return [d.id, d];});
           }());
           const designIds = designs.map((d) => {return d.id;});
           const history = (new Map(state.searchHistory)).set(keywords, designIds);
