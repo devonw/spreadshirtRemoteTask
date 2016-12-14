@@ -29,7 +29,7 @@ class Statistics extends Component {
         }
       }
       return (
-        <tr>
+        <tr key={designIds}>
           <td>{keywords}</td>
           <td>
             <dl>
