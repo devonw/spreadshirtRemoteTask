@@ -14,16 +14,18 @@ class App extends Component {
     super(props);
     this.state = {
       appState: AppStates.showSearch,
-      designs: [],
       status: {
         title: "Welcome!",
         msg: "This is like tinder for T-shirts.",
         style: "success"
       },
-      searchHistory: new Map() // keywords -> designs
+      searchHistory: new Map(), // keywords -> [designId]
+      designs: new Map(), // design.id -> design
+      voteKeywords: ""
     };
     this.triggerSearch = this.triggerSearch.bind(this);
     this.dismissStatus = this.dismissStatus.bind(this);
+    this.applyVote = this.applyVote.bind(this);
   }
 
   triggerSearch(keywords) {
@@ -31,11 +33,11 @@ class App extends Component {
     if(searchHistory.has(keywords)){
       this.setState({
         appState: AppStates.vote,
-        designs: searchHistory.get(keywords),
         status: {
           title: "Ah!",
           msg: "This search was done before. No server was bothered.",
-          style: "info"}
+          style: "info"},
+        voteKeywords: keywords
       });
     }else{
       const searchConfig = {
@@ -51,13 +53,17 @@ class App extends Component {
       axios.get(`/api/v1/shops/${shopId}/designs`, searchConfig).then(
         (response) => {
           const designs = response.data.designs;
-          var history = new Map(this.state.searchHistory);
-          history.set(keywords, designs);
+          const newDesigns = new Map(designs.map((d) => {
+            return [d.id, d];
+          }));
+          const designIds = designs.map((d) => {return d.id;});
+          const history = (new Map(this.state.searchHistory)).set(keywords, designIds);
           this.setState({
             appState: AppStates.vote,
-            designs: designs,
+            designs: new Map(this.state.designs, newDesigns),
             searchHistory: history,
-            status: {msg: "", title: "", style: ""}
+            status: {msg: "", title: "", style: ""},
+            voteKeywords: keywords
           });
         },
         (error) => {
@@ -75,6 +81,21 @@ class App extends Component {
 
   dismissStatus() {
     this.setState({status: {msg: "", title: "", style: ""}});
+  }
+
+  applyVote(designId, vote){
+    /*
+      cursor will be the index of the current designs to use.
+      vote will be in {-1,1}.
+    */
+    const state = this.state;
+    const design = state.designs.get(designId);
+    this.setState({
+      designs: new Map(
+        state.designs,
+        [design.id, Object.assign({}, design, {vote: vote})]
+      )
+    });
   }
 
   render() {
@@ -99,11 +120,17 @@ class App extends Component {
   }
 
   renderVote() {
+    const state = this.state;
+    const designIds = state.searchHistory.get(state.voteKeywords);
+    const voteDesigns = designIds.map((dId) => {
+      return state.designs.get(dId);
+    });
     return this.renderBase(
       <Vote ref="vote"
-            designs={this.state.designs}
+            designs={voteDesigns}
             searchButton={() => {this.setState({appState: AppStates.showSearch});}}
-            statisticsButton={() => {this.setState({appState: AppStates.statistics});}}/>
+            statisticsButton={() => {this.setState({appState: AppStates.statistics});}}
+            onVote={this.applyVote}/>
     );
   }
 
