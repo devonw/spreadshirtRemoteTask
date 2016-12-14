@@ -13,8 +13,7 @@ it("renders without crashing", () => {
 it("should adjust keywords and searchTriggered correctly", () => {
   const callMe = jest.fn();
   const handleSearch = (keywords) => {
-    //FIXME why are the keywords wrong here?
-    //expect(keywords).toBe("test");
+    expect(keywords).toBe("test");
     return callMe();
   };
   const searchBar = ReactTestUtils.renderIntoDocument(
@@ -28,7 +27,7 @@ it("should adjust keywords and searchTriggered correctly", () => {
   input.value = "test";
   ReactTestUtils.Simulate.change(input);
   ReactTestUtils.Simulate.keyDown(
-    input, {key: "Enter", keyCode: 13, which: 13});
+    input);//, {key: "Enter", keyCode: 13, which: 13});
 
   ReactTestUtils.Simulate.click(button);
   expect(callMe).toHaveBeenCalled();
