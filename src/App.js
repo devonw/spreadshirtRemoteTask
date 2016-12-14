@@ -1,4 +1,4 @@
-/* eslint no-unused-vars: ["error", {"varsIgnorePattern": "React|Searchbar|Vote|StatusMessage"}]*/
+/* eslint no-unused-vars: ["error", {"varsIgnorePattern": "React|Searchbar|Vote|StatusMessage|Statistics"}]*/
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
@@ -6,6 +6,7 @@ import AppStates from "./AppStates";
 import Searchbar from "./Searchbar";
 import Vote from "./Vote";
 import StatusMessage from "./StatusMessage";
+import Statistics from "./Statistics";
 
 const shopId = "205909"; // Given trough task description
 
@@ -107,8 +108,7 @@ class App extends Component {
     case AppStates.vote:
       return this.renderVote();
     case AppStates.statistics:
-      // FIXME IMPLEMENT
-      return this.renderBase("Statistics intensifies");
+      return this.renderStatistics();
     case AppStates.showSearch:
     default:
       return this.renderSearch();
@@ -133,6 +133,13 @@ class App extends Component {
             searchButton={() => {this.setState({appState: AppStates.showSearch});}}
             statisticsButton={() => {this.setState({appState: AppStates.statistics});}}
             onVote={this.applyVote}/>
+    );
+  }
+
+  renderStatistics() {
+    const state = this.state;
+    return this.renderBase(
+      <Statistics designs={state.designs} history={state.searchHistory}/>
     );
   }
 
