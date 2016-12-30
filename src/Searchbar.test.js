@@ -11,11 +11,8 @@ it("renders without crashing", () => {
 });
 
 it("should adjust keywords and trigger onSearch correctly", () => {
-  const callMe = jest.fn();
-  const handleSearch = (keywords) => {
-    expect(keywords).toBe("test");
-    return callMe();
-  };
+  const handleSearch = jest.fn();
+
   const searchBar = ReactTestUtils.renderIntoDocument(
     <Searchbar onSearch={handleSearch}/>
   );
@@ -27,5 +24,5 @@ it("should adjust keywords and trigger onSearch correctly", () => {
   ReactTestUtils.Simulate.change(input, {target: {value: "test"}});
 
   ReactTestUtils.Simulate.click(button);
-  expect(callMe).toHaveBeenCalled();
+  expect(handleSearch).toHaveBeenCalledWith("test");
 });
