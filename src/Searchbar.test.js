@@ -10,7 +10,7 @@ it("renders without crashing", () => {
   ReactDOM.render(<Searchbar />, div);
 });
 
-it("should adjust keywords and searchTriggered correctly", () => {
+it("should adjust keywords and trigger onSearch correctly", () => {
   const callMe = jest.fn();
   const handleSearch = (keywords) => {
     expect(keywords).toBe("test");
@@ -24,10 +24,7 @@ it("should adjust keywords and searchTriggered correctly", () => {
   const button = ReactDOM.findDOMNode(searchBar.refs.searchButton);
   const input = ReactDOM.findDOMNode(searchBar.refs.searchInput);
 
-  input.value = "test";
-  ReactTestUtils.Simulate.change(input);
-  ReactTestUtils.Simulate.keyDown(
-    input);//, {key: "Enter", keyCode: 13, which: 13});
+  ReactTestUtils.Simulate.change(input, {target: {value: "test"}});
 
   ReactTestUtils.Simulate.click(button);
   expect(callMe).toHaveBeenCalled();
